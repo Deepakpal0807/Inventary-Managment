@@ -1,44 +1,26 @@
-const multer = require("multer");
+var multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
-// Define file storage
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads");
-  },
-  filename: function (req, file, cb) {
-    cb(
-      null,
-      new Date().toISOString().replace(/:/g, "-") + "-" + file.originalname
-    ); // 23/08/2022
-  },
-});
-
-// Specify file format that can be saved
-function fileFilter(req, file, cb) {
-  if (
-    file.mimetype === "image/png" ||
-    file.mimetype === "image/jpg" ||
-    file.mimetype === "image/jpeg"
-  ) {
-    cb(null, true);
-  } else {
-    cb(null, false);
-  }
+// Ensure the 'uploads' directory exists (relative path adjusted)
+const uploadDir = path.join(__dirname, '../uploads/product');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-const upload = multer({ storage, fileFilter });
+// Set up Multer storage
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, uploadDir); // Define the destination path
+    },
+    filename: function (req, file, cb) {
+        // Sanitize the file name by removing special characters and replacing spaces with underscores
+        const cleanFileName = file.originalname.replace(/[^a-zA-Z0-9.]/g, "_");
+        cb(null, Date.now() + "_" + cleanFileName); // Create a unique filename
+    }
+});
 
-// File Size Formatter
-const fileSizeFormatter = (bytes, decimal) => {
-  if (bytes === 0) {
-    return "0 Bytes";
-  }
-  const dm = decimal || 2;
-  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "YB", "ZB"];
-  const index = Math.floor(Math.log(bytes) / Math.log(1000));
-  return (
-    parseFloat((bytes / Math.pow(1000, index)).toFixed(dm)) + " " + sizes[index]
-  );
-};
-
-module.exports = { upload, fileSizeFormatter };
+// Export the Multer instance
+module.exports.upload = multer({ 
+    storage: storage 
+});

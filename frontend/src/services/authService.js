@@ -125,6 +125,8 @@ export const getUser = async () => {
 };
 // Update Profile
 export const updateUser = async (formData) => {
+  console.log("Update request are comming ....");
+  console.log(formData);
   try {
     const response = await axios.patch(
       `${BACKEND_URL}/api/users/updateuser`,

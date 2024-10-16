@@ -16,7 +16,7 @@ const Home = () => {
     if (isLoggedIn) {
       navigate("/dashboard");
     }
-  }, [isLoggedIn, navigate]);
+  }, []);
 
   return (
     <div className="home">

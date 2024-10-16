@@ -5,6 +5,9 @@ const bcrypt = require("bcryptjs");
 const Token = require("../models/tokenModel");
 const crypto = require("crypto");
 const sendEmail = require("../utils/sendEmail");
+const { uploadOnCloudinary } = require("../utils/cloudinary");
+const fs = require("fs");
+const path = require("path");
 
 // Generate Token
 const generateToken = (id) => {
@@ -20,7 +23,7 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error("Please fill in all required fields");
   }
-  if (password.length < 6) {
+  if (password?.length < 6) {
     res.status(400);
     throw new Error("Password must be up to 6 characters");
   }
@@ -172,14 +175,38 @@ const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
   if (user) {
-    const { name, email, photo, phone, bio } = user;
-    user.email = email;
-    user.name = req.body.name || name;
-    user.phone = req.body.phone || phone;
-    user.bio = req.body.bio || bio;
-    user.photo = req.body.photo || photo;
+    // Update text fields
+    user.name = req.body.name || user.name;
+    user.phone = req.body.phone || user.phone;
+    user.bio = req.body.bio || user.bio;
+
+    // Handle image upload if provided
+    if (req.file) {
+      try {
+        // Upload the image to Cloudinary
+        const result = await uploadOnCloudinary(req.file.path);
+
+        // Store the image URL in the user profile
+        user.photo = result.secure_url;
+
+        // Normalize and check if the file exists before unlinking
+        const filePath = path.normalize(req.file.path);
+        console.log("File path to delete:", filePath);
+        
+        if (fs.existsSync(filePath)) {
+          fs.unlinkSync(filePath);
+          console.log("File deleted successfully");
+        } else {
+          console.log("File not found for deletion");
+        }
+      } catch (error) {
+        res.status(500).json({ message: error.message });
+        return;
+      }
+    }
 
     const updatedUser = await user.save();
+
     res.status(200).json({
       _id: updatedUser._id,
       name: updatedUser.name,
@@ -189,10 +216,11 @@ const updateUser = asyncHandler(async (req, res) => {
       bio: updatedUser.bio,
     });
   } else {
-    res.status(404);
-    throw new Error("User not found");
+    res.status(404).json({ message: "User not found" });
   }
 });
+
+
 
 const changePassword = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);

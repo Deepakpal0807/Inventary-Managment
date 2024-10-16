@@ -19,6 +19,7 @@ export const createProduct = createAsyncThunk(
   "products/create",
   async (formData, thunkAPI) => {
     try {
+      console.log(formData);
       return await productService.createProduct(formData);
     } catch (error) {
       const message =
@@ -90,11 +91,14 @@ export const getProduct = createAsyncThunk(
   }
 );
 // Update product
+// Create Async Thunk for Update Product without thunkAPI
 export const updateProduct = createAsyncThunk(
   "products/updateProduct",
-  async ({ id, formData }, thunkAPI) => {
+  async ({ id, formData }) => {
     try {
-      return await productService.updateProduct(id, formData);
+      console.log("FormData being sent:", formData);
+      const response = await productService.updateProduct(id, formData);
+      return response.data;  // Ensure this returns the updated product with the image URL
     } catch (error) {
       const message =
         (error.response &&
@@ -102,11 +106,13 @@ export const updateProduct = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      console.log(message);
-      return thunkAPI.rejectWithValue(message);
+      console.log("Error updating product:", message);
+      throw new Error(message);  // Return error as thrown exception
     }
   }
 );
+
+
 
 const productSlice = createSlice({
   name: "product",

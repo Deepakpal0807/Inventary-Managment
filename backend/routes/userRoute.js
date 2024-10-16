@@ -12,13 +12,18 @@ const {
   resetPassword,
 } = require("../controllers/userController");
 const protect = require("../middleWare/authMiddleware");
+const { upload } = require("../utils/fileUpload"); // Import multer configuration
 
-router.post("/register", registerUser);
+// User routes
+router.route("/register").post(registerUser);
 router.post("/login", loginUser);
 router.get("/logout", logout);
 router.get("/getuser", protect, getUser);
 router.get("/loggedin", loginStatus);
-router.patch("/updateuser", protect, updateUser);
+
+// Add multer middleware for image upload in updateUser route
+router.patch("/updateuser", protect, upload.single('image'), updateUser);
+
 router.patch("/changepassword", protect, changePassword);
 router.post("/forgotpassword", forgotPassword);
 router.put("/resetpassword/:resetToken", resetPassword);

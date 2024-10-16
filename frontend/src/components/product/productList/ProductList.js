@@ -29,7 +29,7 @@ const ProductList = ({ products, isLoading }) => {
   const dispatch = useDispatch();
 
   const shortenText = (text, n) => {
-    if (text.length > n) {
+    if (text?.length > n) {
       const shortenedText = text.substring(0, n).concat("...");
       return shortenedText;
     }
@@ -68,11 +68,11 @@ const ProductList = ({ products, isLoading }) => {
     const endOffset = itemOffset + itemsPerPage;
 
     setCurrentItems(filteredProducts.slice(itemOffset, endOffset));
-    setPageCount(Math.ceil(filteredProducts.length / itemsPerPage));
+    setPageCount(Math.ceil(filteredProducts?.length / itemsPerPage));
   }, [itemOffset, itemsPerPage, filteredProducts]);
 
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % filteredProducts.length;
+    const newOffset = (event.selected * itemsPerPage) % filteredProducts?.length;
     setItemOffset(newOffset);
   };
   // End Pagination
@@ -133,7 +133,7 @@ const ProductList = ({ products, isLoading }) => {
         {isLoading && <SpinnerImg />}
 
         <div className="table">
-          {!isLoading && products.length === 0 ? (
+          {!isLoading && products?.length === 0 ? (
             <p>-- No product found, please add a product...</p>
           ) : (
             <table>

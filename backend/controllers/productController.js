@@ -5,6 +5,7 @@ const cloudinary = require("cloudinary").v2;
 
 // Create Prouct
 const createProduct = asyncHandler(async (req, res) => {
+  console.log(req);
   const { name, sku, category, quantity, price, description } = req.body;
 
   //   Validation
@@ -140,7 +141,7 @@ const updateProduct = asyncHandler(async (req, res) => {
       quantity,
       price,
       description,
-      image: Object.keys(fileData).length === 0 ? product?.image : fileData,
+      image: Object.keys(fileData)?.length === 0 ? product?.image : fileData,
     },
     {
       new: true,

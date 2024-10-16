@@ -10,16 +10,21 @@ const filterSlice = createSlice({
   reducers: {
     FILTER_PRODUCTS(state, action) {
       const { products, search } = action.payload;
-      const tempProducts = products.filter(
-        (product) =>
-          product.name.toLowerCase().includes(search.toLowerCase()) ||
-          product.category.toLowerCase().includes(search.toLowerCase())
-      );
+      const tempProducts = products.filter((product) => {
+        const productName = product.name ? product.name.toLowerCase() : "";
+        const productCategory = product.category ? product.category.toLowerCase() : "";
+        
+        return (
+          productName.includes(search.toLowerCase()) ||
+          productCategory.includes(search.toLowerCase())
+        );
+      });
 
       state.filteredProducts = tempProducts;
     },
   },
 });
+
 
 export const { FILTER_PRODUCTS } = filterSlice.actions;
 
