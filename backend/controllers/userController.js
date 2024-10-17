@@ -8,6 +8,7 @@ const sendEmail = require("../utils/sendEmail");
 const { uploadOnCloudinary } = require("../utils/cloudinary");
 const fs = require("fs");
 const path = require("path");
+const dotenv=require("dotenv").config()
 
 // Generate Token
 const generateToken = (id) => {
@@ -170,7 +171,7 @@ const loginStatus = asyncHandler(async (req, res) => {
   return res.json(false);
 });
 
-// Update User
+// Update User 
 const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
 
@@ -267,7 +268,8 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   // Create Reste Token
   let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
-  // console.log(resetToken);
+
+  console.log(resetToken);
 
   // Hash token before saving to DB
   const hashedToken = crypto
@@ -285,6 +287,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   // Construct Reset Url
   const resetUrl = `${process.env.FRONTEND_URL}/resetpassword/${resetToken}`;
+  console.log(resetUrl);
 
   // Reset Email
   const message = `
