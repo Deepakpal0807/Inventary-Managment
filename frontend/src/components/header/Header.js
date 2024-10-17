@@ -10,9 +10,17 @@ const Header = () => {
   const name = useSelector(selectName);
 
   const logout = async () => {
-    await logoutUser();
-    await dispatch(SET_LOGIN(false));
-    navigate("/login");
+    // eslint-disable-next-line no-restricted-globals
+    const a = confirm("Do you want to log out?");
+    if (a) {
+      try {
+        await logoutUser(); // Ensure logoutUser() is an async function
+        await dispatch(SET_LOGIN(false)); // Ensure dispatch and SET_LOGIN handle async properly
+        navigate("/login"); // Redirect after successful logout
+      } catch (error) {
+        console.error("Logout failed", error);
+      }
+    }
   };
 
   return (

@@ -21,7 +21,9 @@ const EditProduct = () => {
 
   useEffect(() => {
     if (id) {
-      dispatch(getProduct(id));
+      const a=getProduct(id);
+      console.log(a);
+      dispatch(a);
     }
   }, [dispatch, id]);
 

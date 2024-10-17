@@ -191,13 +191,13 @@ const updateUser = asyncHandler(async (req, res) => {
 
         // Normalize and check if the file exists before unlinking
         const filePath = path.normalize(req.file.path);
-        console.log("File path to delete:", filePath);
+        // console.log("File path to delete:", filePath);
         
         if (fs.existsSync(filePath)) {
           fs.unlinkSync(filePath);
-          console.log("File deleted successfully");
+          // console.log("File deleted successfully");
         } else {
-          console.log("File not found for deletion");
+          // console.log("File not found for deletion");
         }
       } catch (error) {
         res.status(500).json({ message: error.message });
@@ -267,7 +267,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
 
   // Create Reste Token
   let resetToken = crypto.randomBytes(32).toString("hex") + user._id;
-  console.log(resetToken);
+  // console.log(resetToken);
 
   // Hash token before saving to DB
   const hashedToken = crypto

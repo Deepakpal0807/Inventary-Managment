@@ -17,7 +17,9 @@ const ProductDetail = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      dispatch(getProduct(id));
+      const a=getProduct(id);
+      console.log(a);
+      dispatch(a);
     }
     if (isError) {
       console.error(message);
@@ -27,6 +29,10 @@ const ProductDetail = () => {
   const stockStatus = (quantity) => {
     return quantity > 0 ? <span className="--color-success">In Stock</span> : <span className="--color-danger">Out of Stock</span>;
   };
+  
+  
+  console.log(product);
+
 
   return (
     <div className="product-detail">
@@ -34,13 +40,16 @@ const ProductDetail = () => {
       <Card cardClass="card">
         {isLoading && <SpinnerImg />}
         {product && (
+        
+
           <div className="detail">
             <Card cardClass="group">
-              {product?.image ? (
-                <img src={product.image.filePath} alt={product.image.fileName} />
-              ) : (
-                <p>No image available</p>
-              )}
+            {product?.image ? (
+  <img src={product.image} alt="Product Image" class="prodimg" />
+) : (
+  <p>No image available</p>
+)}
+
             </Card>
             <h4>Product Availability: {stockStatus(product.quantity)}</h4>
             <hr />

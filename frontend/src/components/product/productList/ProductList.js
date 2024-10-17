@@ -18,6 +18,7 @@ import {
   updateProduct, // Correct import
 } from "../../../redux/features/product/productSlice";
 import { Link } from "react-router-dom";
+import { BiFontSize } from "react-icons/bi";
 
 const ProductList = ({ products, isLoading }) => {
   const [search, setSearch] = useState("");
@@ -217,14 +218,15 @@ const ProductList = ({ products, isLoading }) => {
     <div style={styles.modalContent}>
       <h4>Adjust Quantity for {selectedProduct.name}</h4>
       <div>
-        <button onClick={() => setQuantityChange(quantityChange - 1)}>-</button>
+        <button style={styles.setbutton} onClick={() => setQuantityChange(quantityChange - 1)}>-</button>
         <input
           type="number"
           value={quantityChange}
           onChange={(e) => setQuantityChange(Number(e.target.value))}  // Ensure value is numeric
           min="0"
+          style={styles.quantity}
         />
-        <button onClick={() => setQuantityChange(quantityChange + 1)}>+</button>
+        <button style={styles.setbutton} onClick={() => setQuantityChange(quantityChange + 1)}>+</button>
       </div>
       <button onClick={handleQuantityChange} style={styles.saveButton}>Save</button>
       <button onClick={closeModal} style={styles.cancelButton}>Cancel</button>
@@ -238,12 +240,20 @@ const ProductList = ({ products, isLoading }) => {
 
 const styles = {
   adjustButton: {
-    padding: "5px 10px",
+    padding: "10px 10px",
     backgroundColor: "#007bff",
     color: "white",
     border: "none",
     borderRadius: "4px",
     cursor: "pointer",
+  },
+  quantity:{
+    width: "60%",
+    
+    padding:"5px",
+    fontSize:"16px",
+    
+
   },
   saveButton: {
     padding: "10px 20px",
@@ -254,12 +264,14 @@ const styles = {
     cursor: "pointer",
   },
   cancelButton: {
+    margin:"20px 10px ",
     padding: "10px 20px",
     backgroundColor: "#dc3545",
     color: "white",
     border: "none",
     borderRadius: "4px",
     cursor: "pointer",
+    
   },
   modal: {
     position: "fixed",  // Change from absolute to fixed
@@ -279,7 +291,11 @@ const styles = {
     padding: "20px",
     borderRadius: "8px",
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    width: "300px",  // You can adjust this as per your preference
+    width: "400px",  // You can adjust this as per your preference
+  },
+  setbutton:{
+    margin:"20px 10px ",
+    padding:"5px 5px"
   }
 };
 

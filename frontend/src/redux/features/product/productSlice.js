@@ -77,8 +77,9 @@ export const getProduct = createAsyncThunk(
   "products/getProduct",
   async (id, thunkAPI) => {
     try {
-      return await productService.getProduct(id);
-    } catch (error) {
+      const response= await productService.getProduct(id);
+      return response;
+        } catch (error) {
       const message =
         (error.response &&
           error.response.data &&

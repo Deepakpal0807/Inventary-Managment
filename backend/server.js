@@ -41,7 +41,7 @@ app.get("/", (req, res) => {
 app.use(errorHandler);
 // Connect to DB and start server
 const PORT = process.env.PORT || 5000;
-console.log(process.env.MONGO_URI)
+// console.log(process.env.MONGO_URI)
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {

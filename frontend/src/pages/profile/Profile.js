@@ -63,6 +63,8 @@ const Profile = () => {
           </Card>
         )}
       </>
+      <p style={{fontSize:"20px"}}>Made with <span style={{color:"red"}}>&hearts;</span>	 by Deepak Pal </p>
+
     </div>
   );
 };
