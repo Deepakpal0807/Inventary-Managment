@@ -3,14 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductList from "../../components/product/productList/ProductList";
 import ProductSummary from "../../components/product/productSummary/ProductSummary";
 import useRedirectLoggedOutUser from "../../customHook/useRedirectLoggedOutUser";
-import { selectIsLoggedIn } from "../../redux/features/auth/authSlice";
+import { selectIsLoggedIn, selectUser } from "../../redux/features/auth/authSlice";
 import { getProducts } from "../../redux/features/product/productSlice";
+
 
 const Dashboard = () => {
   useRedirectLoggedOutUser("/login");
   const dispatch = useDispatch();
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  
+  const user = useSelector(selectUser);
+  console.log("user details : ",user);
+  console.log("select user : ",selectUser);
   const { products, isLoading, isError, message } = useSelector(
     (state) => state.product
   );
@@ -24,6 +29,16 @@ const Dashboard = () => {
       console.log(message);
     }
   }, [isLoggedIn, isError, message, dispatch]);
+
+  // Set the username as the website name in the meta tag
+ 
+  useEffect(() => {
+    if (user && user.name) {
+      document.title = `${user.name}'s  Inventory System`;
+    } else {
+      document.title = "Inventory Managment System"; // Default title
+    }
+  }, [user]);
 
   return (
     <div>

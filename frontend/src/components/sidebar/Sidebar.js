@@ -24,7 +24,7 @@ const Sidebar = ({ children }) => {
             onClick={goHome}
           >
             <img
-              src="/icons.png"  // Use the logo file from the public folder
+              src="/inventory.png"  // Use the logo file from the public folder
               alt="Logo"
               style={{ width: "50px", cursor: "pointer" }} // Adjust the width as needed
             />

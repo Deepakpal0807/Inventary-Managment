@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { RiProductHuntLine } from "react-icons/ri";
+// import { RiProductHuntLine } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import "./Home.scss";
 import heroImg from "../../assets/inv-img.png";
@@ -22,7 +22,7 @@ const Home = () => {
     <div className="home">
       <nav className="container --flex-between ">
         <div className="logo">
-          <RiProductHuntLine size={35} />
+          <img src="../public/icons.png" alt="" />
         </div>
 
         <ul className="home-links">
@@ -60,17 +60,27 @@ const Home = () => {
               <Link to="/dashboard">Free Trial 1 Month</Link>
             </button>
           </div>
-          <div className="--flex-start">
+          {/* <div className="--flex-start">
             <NumberText num="14K" text="Brand Owners" />
             <NumberText num="23K" text="Active Users" />
             <NumberText num="500+" text="Partners" />
-          </div>
+          </div> */}
         </div>
 
         <div className="hero-image">
           <img src={heroImg} alt="Inventory" />
         </div>
       </section>
+      <p style={{
+  fontSize: "20px",
+  color: "white",
+  position: "fixed",
+  right: "10px",
+  bottom: "10px"
+}}>
+  Made with <span style={{color:"red"}}>&hearts;</span> by Deepak Pal
+</p>
+
     </div>
   );
 };
